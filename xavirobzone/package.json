@@ -1,0 +1,20 @@
+{
+  "name": "xavirobzone-healing",
+  "version": "1.0.0",
+  "description": "Xavirobzone Mystic & Healing Sanctuary",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site - no build required'",
+    "lint": "echo 'No linter configured'"
+  },
+  "keywords": [
+    "healing",
+    "mystic"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0"
+  }
+}
