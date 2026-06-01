@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xavirobzone Mystic & Healing Sanctuary</title>
+
+    <!-- Google Fonts: สไตล์โหราศาสตร์พรีเมียม (Cinzel) ผสานกับตัวอักษรอ่านง่าย (Prompt) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS สำหรับการวาง Layout และโครงสร้างที่ตอบสนองมือถือ -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['Prompt', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome สำหรับการตกแต่งไอคอนด้วยดวงดาว พระจันทร์ และหัวใจ -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- ตั้งค่าโทนสีตามรูปต้นแบบของคุณ Xavirobzone (Sapphire & Burgundy) --- */
+        :root {
+            /* ธีมหลัก (Dark Mode - สีน้ำเงินหรูหราแบบแกแล็กซี่) */
+            --color-bg: #112250;
+            --color-bg-dark: #0c183a;
+            --color-accent: #E0C58F;
+            --color-accent-dim: rgba(224, 197, 143, 0.2);
+            --color-text: #F5F0E9;
+            --color-text-muted: #D9CBC2;
+            --color-on-accent: #0c183a;
+            --glass-bg: rgba(60, 80, 125, 0.35);
+            --glass-border: rgba(245, 240, 233, 0.12);
+            --glass-shadow: rgba(12, 24, 58, 0.6);
+            --glass-shadow-hover: rgba(224, 197, 143, 0.15);
+            --glow-grad-1: radial-gradient(circle, #3C507D 0%, transparent 70%);
+            --glow-grad-2: radial-gradient(circle, #112250 0%, transparent 70%);
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1), color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Prompt', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-mystic {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* เอฟเฟกต์แผ่นกระจกพรีเมียม (Glassmorphism) */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 40px 0 var(--glass-shadow);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-panel:hover {
+            box-shadow: 0 15px 45px 0 var(--glass-shadow-hover);
+            border-color: var(--color-accent);
+        }
+
+        /* แถบเมนูที่มีลูกเล่นขยับได้เมื่อมีปฏิสัมพันธ์ */
+        .btn-tab {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .btn-tab::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 50%;
+            width: 0;
+            height: 2.5px;
+            background: var(--color-accent);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-50%);
+        }
+
+        .btn-tab.active {
+            color: var(--color-accent) !important;
+            font-weight: 600;
+        }
+
+        .btn-tab.active::after {
+            width: 70%;
+        }
+
+        /* ซ่อนแถบเลื่อนไม่ให้รกสายตา */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* วงออร่าสั่นไหวและล่องลอยเบาๆ ในฉากหลัง */
+        .glow-orb-1 {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: var(--glow-grad-1);
+            filter: blur(120px);
+            opacity: 0.3;
+            z-index: 0;
+            pointer-events: none;
+            top: -15%;
+            left: -15%;
+            animation: floatOrb 25s infinite alternate;
+        }
+
+        .glow-orb-2 {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: var(--glow-grad-2);
+            filter: blur(100px);
+            opacity: 0.25;
+            z-index: 0;
+            pointer-events: none;
+            bottom: -10%;
+            right: -10%;
+            animation: floatOrb 30s infinite alternate-reverse;
+        }
+
+        @keyframes floatOrb {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(60px, 40px) scale(1.15);
+            }
+        }
+
+        /* เอฟเฟกต์การสับเปลี่ยนหน้าเว็บอย่างนุ่มนวล */
+        .fade-in {
+            animation: fadeInEffect 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes fadeInEffect {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* การพลิกไพ่พยากรณ์สมจริงแบบ 3D */
+        .card-inner {
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+
+        .divine-card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative flex flex-col">
+
+    <!-- วงออร่าลอยละล่องด้านหลัง -->
+    <div class="glow-orb-1"></div>
+    <div class="glow-orb-2"></div>
+
+    <!-- ส่วนหัวเว็บไซต์ (Header) -->
+    <header class="w-full py-6 px-8 flex justify-between items-center z-10 border-b transition-colors duration-500"
+        style="border-color: var(--glass-border);">
+        <div class="flex items-center gap-4 cursor-pointer" onclick="switchTab('quotes')">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all duration-500"
+                style="background: var(--color-accent); color: var(--color-on-accent);">
+                <i class="fa-solid fa-compass-drafting animate-pulse"></i>
+            </div>
+            <div>
+                <h1 class="text-2xl font-black tracking-widest font-mystic transition-all duration-500"
+                    style="color: var(--color-accent);">XAVIROBZONE</h1>
+                <p class="text-[10px] tracking-widest uppercase opacity-70 font-semibold transition-all duration-500"
+                    style="color: var(--color-text);">Mystic & Healing Sanctuary</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <!-- ปุ่มเปลี่ยนภาษา TH/EN -->
+            <button onclick="toggleLanguage()"
+                class="p-2.5 rounded-full glass-panel hover:scale-105 active:scale-95 transition-all text-xs font-bold flex items-center gap-1.5"
+                style="color: var(--color-accent);">
+                <i class="fa-solid fa-globe"></i>
+                <span id="lang-indicator">TH</span>
+            </button>
+            <!-- ปุ่มเปลี่ยนโหมดสว่าง/มืด -->
+            <button onclick="toggleTheme()"
+                class="p-2.5 rounded-full glass-panel hover:scale-105 active:scale-95 transition-all text-lg"
+                style="color: var(--color-accent);">
+                <i id="theme-icon" class="fa-solid fa-sun"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- เมนูเปลี่ยนแท็บ (Navigation Tab) -->
+    <nav class="w-full flex justify-center py-6 px-4 z-10 overflow-x-auto hide-scrollbar">
+        <div class="flex gap-1.5 p-1.5 rounded-full glass-panel max-w-full">
+            <button id="btn-quotes" onclick="switchTab('quotes')"
+                class="btn-tab active px-5 py-2.5 rounded-full text-sm font-medium flex items-center gap-2 transition-all">
+                <i class="fa-solid fa-feather-pointed"></i>
+                <span data-translate="tabQuotes">คำคมฮีลใจ</span>
+            </button>
+            <button id="btn-therapist" onclick="switchTab('therapist')"
+                class="btn-tab px-5 py-2.5 rounded-full text-sm font-medium flex items-center gap-2 transition-all">
+                <i class="fa-solid fa-user-doctor"></i>
+                <span data-translate="tabTherapist">ที่ปรึกษา AI</span>
+            </button>
+            <button id="btn-divination" onclick="switchTab('divination')"
+                class="btn-tab px-5 py-2.5 rounded-full text-sm font-medium flex items-center gap-2 transition-all">
+                <i class="fa-solid fa-wand-sparkles"></i>
+                <span data-translate="tabDivination">พยากรณ์ไพ่</span>
+            </button>
+            <button id="btn-selflove" onclick="switchTab('selflove')"
+                class="btn-tab px-5 py-2.5 rounded-full text-sm font-medium flex items-center gap-2 transition-all">
+                <i class="fa-solid fa-heart"></i>
+                <span data-translate="tabSelfLove">ส่งความรู้สึก</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ส่วนจัดแสดงฟังก์ชันเนื้อหาหลัก (Main Display) -->
+    <main class="flex-1 max-w-4xl w-full mx-auto px-6 pb-24 z-10 flex flex-col justify-center">
+
+        <!-- แท็บที่ 1: หน้าคำคมสุ่มนำทางชีวิต (Quotes Tab) -->
+        <section id="tab-quotes" class="tab-content active fade-in flex flex-col items-center">
+            <div class="w-full glass-panel rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
+                <i class="fa-solid fa-quote-left absolute top-8 left-8 text-4xl opacity-10"
+                    style="color: var(--color-accent);"></i>
+                <i class="fa-solid fa-quote-right absolute bottom-8 right-8 text-4xl opacity-10"
+                    style="color: var(--color-accent);"></i>
+
+                <div class="py-10">
+                    <p id="display-quote-th" class="text-2xl md:text-3xl font-medium leading-relaxed mb-6"></p>
+                    <p id="display-quote-en" class="text-lg md:text-xl italic opacity-70 font-mystic"
+                        style="color: var(--color-accent);"></p>
+                </div>
+
+                <button onclick="getRandomQuote()"
+                    class="mt-8 px-8 py-3.5 rounded-full font-bold shadow-lg hover:scale-105 active:scale-95 transition-all flex items-center gap-2 mx-auto"
+                    style="background: var(--color-accent); color: var(--color-on-accent);">
+                    <i class="fa-solid fa-wind"></i>
+                    <span data-translate="btnWind">รับสายลมใหม่</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- แท็บที่ 2: ห้องบำบัดและนักจิตวิทยา AI ทั้ง 4 คน (Therapist Tab) [ขยายพื้นที่แชทขั้นสุดสะใจ 100 กว่า!] -->
+        <section id="tab-therapist" class="tab-content hidden fade-in flex flex-col h-[105vh]">
+            <div id="therapist-selector" class="w-full glass-panel rounded-3xl p-4 md:p-5 flex flex-col gap-4 mb-4">
+                <h3 class="text-xs font-bold text-center" data-translate="therapistSelect">
+                    เลือกผู้เชี่ยวชาญที่คุณต้องการพูดคุยด้วย</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <!-- ดร. อัญญา (ความรัก) -->
+                    <button onclick="selectTherapist('anya')"
+                        class="p-3 rounded-2xl glass-panel flex flex-col items-center text-center gap-2 border-2 transition-all hover:-translate-y-1"
+                        id="selector-anya">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center text-xl"
+                            style="background: rgba(117, 22, 45, 0.15); color: var(--color-accent);"><i
+                                class="fa-solid fa-heart-crack"></i></div>
+                        <div>
+                            <p class="font-bold text-xs">ดร. อัญญา</p>
+                            <p class="text-[9px] opacity-60">รัก & ความสัมพันธ์</p>
+                        </div>
+                    </button>
+                    <!-- มาสเตอร์ เซน (สัจธรรมชีวิต) -->
+                    <button onclick="selectTherapist('zen')"
+                        class="p-3 rounded-2xl glass-panel flex flex-col items-center text-center gap-2 border-2 transition-all hover:-translate-y-1"
+                        id="selector-zen">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center text-xl"
+                            style="background: rgba(117, 22, 45, 0.15); color: var(--color-accent);"><i
+                                class="fa-solid fa-yin-yang"></i></div>
+                        <div>
+                            <p class="font-bold text-xs">มาสเตอร์ เซน</p>
+                            <p class="text-[9px] opacity-60">ปล่อยวาง & สัจธรรม</p>
+                        </div>
+                    </button>
+                    <!-- โค้ช วี (ปลุกใจหมดไฟ) -->
+                    <button onclick="selectTherapist('vee')"
+                        class="p-3 rounded-2xl glass-panel flex flex-col items-center text-center gap-2 border-2 transition-all hover:-translate-y-1"
+                        id="selector-vee">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center text-xl"
+                            style="background: rgba(117, 22, 45, 0.15); color: var(--color-accent);"><i
+                                class="fa-solid fa-fire-flame-curved"></i></div>
+                        <div>
+                            <p class="font-bold text-xs">โค้ช วี</p>
+                            <p class="text-[9px] opacity-60">พลังใจ & หมดไฟ</p>
+                        </div>
+                    </button>
+                    <!-- ลูน่า (เพื่อนสนิทรับฟัง) -->
+                    <button onclick="selectTherapist('luna')"
+                        class="p-3 rounded-2xl glass-panel flex flex-col items-center text-center gap-2 border-2 transition-all hover:-translate-y-1"
+                        id="selector-luna">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center text-xl"
+                            style="background: rgba(117, 22, 45, 0.15); color: var(--color-accent);"><i
+                                class="fa-solid fa-hands-holding-child"></i></div>
+                        <div>
+                            <p class="font-bold text-xs">ลูน่า</p>
+                            <p class="text-[9px] opacity-60">ผู้รับฟัง & เพื่อนสนิท</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- กล่องห้องแชทจำลองบำบัดจริง -->
+            <div id="chat-container" class="flex-1 glass-panel rounded-3xl flex flex-col overflow-hidden relative">
+                <!-- ข้อมูลคนคุยด้านบน -->
+                <div class="p-4 border-b flex items-center justify-between"
+                    style="border-color: var(--glass-border); background: rgba(0,0,0,0.15);">
+                    <div class="flex items-center gap-3">
+                        <div id="active-therapist-icon"
+                            class="w-10 h-10 rounded-full flex items-center justify-center text-lg"
+                            style="background: var(--color-accent); color: var(--color-on-accent);">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div>
+                            <h4 id="active-therapist-name" class="font-bold text-sm">ผู้ช่วยบำบัด</h4>
+                            <p class="text-[10px] text-emerald-400 font-semibold" data-translate="therapistOnline">
+                                กำลังออนไลน์</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- รายชื่อประวัติสนทนาในหน้าต่าง -->
+                <div id="chat-messages" class="flex-1 p-6 overflow-y-auto space-y-4"></div>
+
+                <!-- ส่วนพิมพ์รับส่งข้อมูลแชท -->
+                <div class="p-4 border-t flex gap-2"
+                    style="border-color: var(--glass-border); background: rgba(0,0,0,0.15);">
+                    <input type="text" id="chat-input"
+                        class="flex-1 bg-transparent border rounded-full px-5 py-3 text-sm focus:outline-none transition-all"
+                        style="border-color: var(--glass-border); color: var(--color-text); background: rgba(0,0,0,0.2);"
+                        placeholder="พิมพ์ข้อความเล่าเรื่องของคุณให้ฉันฟังที่นี่...">
+                    <button onclick="sendChatMessage()"
+                        class="w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-105 active:scale-95"
+                        style="background: var(--color-accent); color: var(--color-on-accent);">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- แท็บที่ 3: เปิดหน้าไพ่สุ่มพยากรณ์ชะตาชีวิต (Divination Tab) -->
+        <section id="tab-divination" class="tab-content hidden fade-in flex flex-col items-center">
+            <div class="w-full glass-panel rounded-3xl p-8 md:p-12">
+                <!-- ส่วนที่ 1: กรอกคำถามและเลือกสำรับไพ่ -->
+                <div id="divine-step-1" class="space-y-6">
+                    <h3 class="text-xl font-bold text-center font-mystic" style="color: var(--color-accent);"
+                        data-translate="oracleTitle">ตั้งจิตอธิษฐานและใส่คำถามของคุณ</h3>
+                    <textarea id="divine-question"
+                        class="w-full p-5 rounded-2xl border resize-none h-32 bg-transparent text-sm focus:outline-none transition-all"
+                        style="border-color: var(--glass-border); background: rgba(0,0,0,0.15);"
+                        placeholder="เช่น อนาคตการงานของฉันในช่วงนี้จะเป็นอย่างไรบ้างคะ?"></textarea>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+                        <button onclick="startDivination('tarot')"
+                            class="p-6 rounded-2xl glass-panel hover:-translate-y-1 transition-all text-center flex flex-col items-center gap-3">
+                            <i class="fa-solid fa-moon text-3xl" style="color: var(--color-accent);"></i>
+                            <span class="font-bold text-base font-mystic">ไพ่ทาโรต์ (Tarot Deck)</span>
+                            <span class="text-[11px] opacity-60">ดิ่งลึกสู่ก้นบึ้งของจิตวิญญาณและอนาคต</span>
+                        </button>
+                        <button onclick="startDivination('poker')"
+                            class="p-6 rounded-2xl glass-panel hover:-translate-y-1 transition-all text-center flex flex-col items-center gap-3">
+                            <i class="fa-solid fa-diamond-turn-right text-3xl" style="color: var(--color-accent);"></i>
+                            <span class="font-bold text-base font-mystic">ไพ่ป๊อก (Poker Deck)</span>
+                            <span class="text-[11px] opacity-60">บอกเหตุการณ์เฉพาะหน้าและจุดพลิกผันปัจจุบัน</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ส่วนที่ 2: หน้าจอเลือกเปิดไพ่ด้วยตนเองทีละใบ -->
+                <div id="divine-step-2" class="hidden space-y-8 text-center py-6">
+                    <div>
+                        <h4 class="text-sm opacity-60 uppercase tracking-widest font-mystic">คำถามของคุณ</h4>
+                        <p id="divine-question-display" class="text-lg italic font-medium"></p>
+                    </div>
+
+                    <div class="flex justify-center gap-4 py-8 overflow-x-auto hide-scrollbar">
+                        <!-- ไพ่ 3 ใบสำหรับให้ผู้ใช้ใช้มือจิ้มเลือกทีละใบเพื่อเปิดเฉลย -->
+                        <div id="card-0" onclick="drawSingleCard(0)"
+                            class="divine-card w-28 h-44 sm:w-32 sm:h-48 cursor-pointer rounded-2xl overflow-hidden shadow-2xl relative"
+                            style="perspective: 1000px;">
+                            <div class="card-inner w-full h-full relative duration-700">
+                                <div class="card-front absolute inset-0 rounded-2xl border flex items-center justify-center p-2"
+                                    style="background: var(--color-accent-dim); border-color: var(--color-accent); color: var(--color-accent);">
+                                    <i class="fa-solid fa-star text-2xl animate-pulse"></i>
+                                </div>
+                                <div class="card-back absolute inset-0 rounded-2xl border flex flex-col items-center justify-center p-3 text-center"
+                                    style="background: var(--glass-bg); border-color: var(--color-accent); color: var(--color-text);">
+                                    <span id="card-name-0" class="text-xs font-bold font-mystic"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="card-1" onclick="drawSingleCard(1)"
+                            class="divine-card w-28 h-44 sm:w-32 sm:h-48 cursor-pointer rounded-2xl overflow-hidden shadow-2xl relative"
+                            style="perspective: 1000px;">
+                            <div class="card-inner w-full h-full relative duration-700">
+                                <div class="card-front absolute inset-0 rounded-2xl border flex items-center justify-center p-2"
+                                    style="background: var(--color-accent-dim); border-color: var(--color-accent); color: var(--color-accent);">
+                                    <i class="fa-solid fa-star text-2xl animate-pulse"></i>
+                                </div>
+                                <div class="card-back absolute inset-0 rounded-2xl border flex flex-col items-center justify-center p-3 text-center"
+                                    style="background: var(--glass-bg); border-color: var(--color-accent); color: var(--color-text);">
+                                    <span id="card-name-1" class="text-xs font-bold font-mystic"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="card-2" onclick="drawSingleCard(2)"
+                            class="divine-card w-28 h-44 sm:w-32 sm:h-48 cursor-pointer rounded-2xl overflow-hidden shadow-2xl relative"
+                            style="perspective: 1000px;">
+                            <div class="card-inner w-full h-full relative duration-700">
+                                <div class="card-front absolute inset-0 rounded-2xl border flex items-center justify-center p-2"
+                                    style="background: var(--color-accent-dim); border-color: var(--color-accent); color: var(--color-accent);">
+                                    <i class="fa-solid fa-star text-2xl animate-pulse"></i>
+                                </div>
+                                <div class="card-back absolute inset-0 rounded-2xl border flex flex-col items-center justify-center p-3 text-center"
+                                    style="background: var(--glass-bg); border-color: var(--color-accent); color: var(--color-text);">
+                                    <span id="card-name-2" class="text-xs font-bold font-mystic"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="divine-status" class="text-sm italic opacity-70">โปรดคลิกเพื่อจั่วไพ่ทีละใบให้ครบ 3
+                        ใบเพื่อฟังคำทำนาย...</div>
+
+                    <!-- พื้นที่วิเคราะห์และอ่านไพ่ด้วยเวทมนตร์ของ AI -->
+                    <div id="divine-reading-container"
+                        class="hidden text-left p-6 rounded-2xl max-w-2xl mx-auto space-y-4"
+                        style="background: rgba(0,0,0,0.15);">
+                        <h4 class="font-bold text-base font-mystic flex items-center gap-2"
+                            style="color: var(--color-accent);">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> คำวิเคราะห์คำทำนายชะตา
+                        </h4>
+                        <p id="divine-reading-text" class="text-sm leading-relaxed whitespace-pre-wrap"></p>
+                    </div>
+
+                    <!-- ปุ่มล้างดวงเพื่อสุ่มดวงไพ่รอบต่อไป -->
+                    <div id="divine-retry-btn" class="hidden pt-4">
+                        <button onclick="resetDivination()"
+                            class="px-8 py-3 rounded-full font-bold shadow-lg hover:scale-105 active:scale-95 transition-all"
+                            style="background: var(--color-accent); color: var(--color-on-accent);">
+                            ทำนายใหม่อีกครั้ง
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- แท็บที่ 4: มุมซึ้งๆ ระบายรักตัวเองและส่งต่อถึงหัวใจคนสำคัญ (Self Love Tab) -->
+        <section id="tab-selflove" class="tab-content hidden fade-in flex flex-col items-center">
+            <div class="w-full glass-panel rounded-3xl p-8 md:p-12 relative overflow-hidden">
+                <i class="fa-solid fa-heart absolute -bottom-10 -right-10 text-[180px] opacity-[0.03]"
+                    style="color: var(--color-accent);"></i>
+
+                <div id="selflove-step-1" class="space-y-6">
+                    <div class="text-center space-y-2">
+                        <h3 class="text-2xl font-bold" style="color: var(--color-accent);">พื้นที่ส่งต่อความรู้สึก</h3>
+                        <p class="text-sm opacity-70">เขียนข้อความถึงคนที่คุณรัก หรือเขียนเพื่อโอบกอด 'ตัวคุณเอง'
+                            ในวันนี้ แล้วเราจะช่วยตบไหล่เยียวยาให้</p>
+                    </div>
+
+                    <textarea id="selflove-message"
+                        class="w-full p-5 rounded-2xl border resize-none h-40 bg-transparent text-sm focus:outline-none transition-all"
+                        style="border-color: var(--glass-border); background: rgba(0,0,0,0.15);"
+                        placeholder="เขียนความรู้สึกของคุณถึงตัวตนของคุณที่เหนื่อยล้ามาวันนี้ที่นี่..."></textarea>
+
+                    <button onclick="submitSelfLove()"
+                        class="w-full py-4 rounded-xl font-bold shadow-lg hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2"
+                        style="background: var(--color-accent); color: var(--color-on-accent);">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>ปลดปล่อยความรู้สึกนี้ออกไป</span>
+                    </button>
+                </div>
+
+                <div id="selflove-step-2" class="hidden space-y-6 text-center py-6">
+                    <i class="fa-solid fa-heart-circle-check text-5xl animate-pulse"
+                        style="color: var(--color-accent);"></i>
+                    <h3 class="text-xl font-bold">เราโอบกอดและรับรู้ถึงข้อความที่สวยงามนี้แล้วค่ะ</h3>
+
+                    <div class="text-left p-6 rounded-2xl max-w-xl mx-auto space-y-3"
+                        style="background: rgba(0,0,0,0.15);">
+                        <p id="selflove-response" class="text-sm leading-relaxed whitespace-pre-wrap"></p>
+                    </div>
+
+                    <button onclick="resetSelfLove()"
+                        class="px-8 py-3 rounded-full font-bold shadow-lg hover:scale-105 active:scale-95 transition-all"
+                        style="background: var(--color-accent); color: var(--color-on-accent);">
+                        เขียนความรู้สึกใหม่อีกครั้ง
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- เครดิตผู้ก่อตั้งอยู่ด้านล่างสุดเสมอ -->
+    <footer class="w-full py-6 text-center z-10 text-xs opacity-50 mt-auto">
+        <p>© 2026 Xavirobzone. All rights reserved. Created with Pure Love & Psychological Wisdom.</p>
+    </footer>
+
+    <!-- ส่วนเขียนฟังก์ชันโปรแกรมควบคุม JavaScript ล้วน (Vanilla JS) ปราศจากบั๊กและตัวตัดทอนรหัส -->
+    <script>
+        // กำหนดรายละเอียดตัวแปรสีโหมดมืด (น้ำเงินลึกลับ) และโหมดสว่าง (แดงหรูหรา)
+        const THEMES = {
+            dark: {
+                '--color-bg': '#112250',
+                '--color-bg-dark': '#0c183a',
+                '--color-accent': '#E0C58F',
+                '--color-accent-dim': 'rgba(224, 197, 143, 0.2)',
+                '--color-text': '#F5F0E9',
+                '--color-text-muted': '#D9CBC2',
+                '--color-on-accent': '#0c183a',
+                '--glass-bg': 'rgba(60, 80, 125, 0.35)',
+                '--glass-border': 'rgba(245, 240, 233, 0.12)',
+                '--glass-shadow': 'rgba(12, 24, 58, 0.6)',
+                '--glass-shadow-hover': 'rgba(224, 197, 143, 0.15)',
+                '--glow-grad-1': 'radial-gradient(circle, #3C507D 0%, transparent 70%)',
+                '--glow-grad-2': 'radial-gradient(circle, #112250 0%, transparent 70%)'
+            },
+            light: {
+                '--color-bg': '#F2E5C6',
+                '--color-bg-dark': '#75162D',
+                '--color-accent': '#75162D',
+                '--color-accent-dim': 'rgba(117, 22, 45, 0.2)',
+                '--color-text': '#3B010B',
+                '--color-text-muted': '#560B18',
+                '--color-on-accent': '#F2E5C6',
+                '--glass-bg': 'rgba(242, 217, 160, 0.45)',
+                '--glass-border': 'rgba(117, 22, 45, 0.12)',
+                '--glass-shadow': 'rgba(86, 11, 24, 0.12)',
+                '--glass-shadow-hover': 'rgba(117, 22, 45, 0.1)',
+                '--glow-grad-1': 'radial-gradient(circle, #F2D9A0 0%, transparent 70%)',
+                '--glow-grad-2': 'radial-gradient(circle, #75162D 0%, transparent 70%)'
+            }
+        };
+
+        // พจนานุกรมแปลภาษาปุ่มหน้าแอปพลิเคชัน
+        const TRANSLATIONS = {
+            th: {
+                tabQuotes: "คำคมฮีลใจ",
+                tabTherapist: "ที่ปรึกษา AI",
+                tabDivination: "พยากรณ์ไพ่",
+                tabSelfLove: "ส่งความรู้สึก",
+                btnWind: "รับสายลมใหม่",
+                therapistSelect: "เลือกผู้เชี่ยวชาญที่คุณต้องการพูดคุยด้วย",
+                therapistOnline: "กำลังออนไลน์",
+                oracleTitle: "ตั้งจิตอธิษฐานและใส่คำถามของคุณ",
+                errAPI: "ขออภัยค่ะ ท้องฟ้ายุ่งเหยิงชั่วขณะ ลองถามใหม่อีกครั้งนะคะ 🌟"
+            },
+            en: {
+                tabQuotes: "Healing Quotes",
+                tabTherapist: "AI Therapist",
+                tabDivination: "Mystic Divination",
+                tabSelfLove: "Express Feelings",
+                btnWind: "Catch New Breeze",
+                therapistSelect: "Choose the expert you wish to consult with",
+                therapistOnline: "Online Now",
+                oracleTitle: "Meditate and enter your question here",
+                errAPI: "Apologies, the celestial skies are busy right now. Please try again. 🌟"
+            }
+        };
+
+        // คลังคำคมฮีลใจชุดใหญ่
+        const QUOTES_POOL = [
+            { th: "ไม่เป็นไรนะที่จะล้มลงในวันนี้ ท้องฟ้าไม่ได้มืดมนไปตลอดหรอก", en: "It's okay to fall down today. The sky isn't dark forever." },
+            { th: "ความผิดหวังในวันนี้เป็นเพียงแค่บทหนึ่งของชีวิต ไม่ใช่ตอนอวสานสักหน่อย", en: "Today's disappointment is just a chapter, not the end of your story." },
+            { th: "คุณเก่งและก้าวผ่านมาได้เยอะขนาดนี้ อย่าลืมชื่นชมตัวเองบ้างนะ", en: "You have come so far and been so brave. Don't forget to praise yourself." },
+            { th: "รักแรกที่ต้องสร้างขึ้นใหม่เสมอ คือความรักที่มีให้แก่ตัวเอง", en: "The first love we must always rebuild is the love for ourselves." },
+            { th: "พักผ่อนเถอะนะ ปล่อยความกังวลไว้กับคืนนี้ แล้วให้ดวงดาวช่วยดูแลคุณ", en: "Rest now. Leave your worries to the night and let the stars tend to you." },
+            { th: "แผลเป็นในอดีตทำให้คุณเป็นคุณที่เข้มแข็งและงดงามขึ้นในทุกวันนี้", en: "Your past scars only make you stronger and more beautiful today." },
+            { th: "ปล่อยคนที่เขาไม่คู่ควรไป เพื่อให้พื้นที่ว่างรับคนที่ดีต่อใจเข้ามา", en: "Let go of those who do not deserve you, to make room for those who do." },
+            { th: "วันนี้อาจจะเหนื่อยล้า แต่จำไว้นะว่าไม่มีพายุลูกไหนพัดอยู่ได้ตลอดไป", en: "You may be exhausted today, but remember that no storm lasts forever." },
+            { th: "ในวันที่ยากลำบากที่สุด แค่หายใจลึกๆ แล้วไปต่อทีละหนึ่งก้าวก็พอ", en: "On the hardest days, just take a deep breath and take one step at a time." },
+            { th: "ความรักที่แท้จริงไม่ควรทำให้คุณรู้สึกด้อยค่าลงเลยแม้แต่น้อย", en: "True love should never make you feel less worthy." },
+            { th: "คุณไม่ได้อยู่คนเดียวนะ บนโลกใบใหญ่นี้ยังมีคนที่คอยโอบกอดหัวใจคุณอยู่", en: "You are not alone. In this wide world, someone is always holding a space for you." },
+            { th: "ปล่อยอดีตให้ผ่านไปกับลมหายใจออก และให้พรุ่งนี้เป็นกระดาษแผ่นใหม่ของคุณ", en: "Let the past flow out with your breath, and let tomorrow be your blank page." },
+            { th: "เหนื่อยก็หยุดพักเสียก่อน ไม่จำเป็นต้องวิ่งแข่งตามจังหวะชีวิตของใคร", en: "Rest if you are tired. There is no need to run according to someone else's rhythm." }
+        ];
+
+        // รายชื่อความหมายและไพ่ทาโรต์ 22 ใบหลัก
+        const TAROT_CARDS = [
+            "The Fool (การเริ่มต้นใหม่ไร้ความกังวล)", "The Magician (พรสวรรค์และการสร้างสรรค์)", "The High Priestess (จิตสำนึกและเซนส์ภายใน)",
+            "The Empress (ความอุดมสมบูรณ์และความรัก)", "The Emperor (ความมั่นคงและโครงสร้าง)", "The Hierophant (คุณธรรมและคำแนะนำ)",
+            "The Lovers (ทางเลือกและความผูกพัน)", "The Chariot (การต่อสู้และความมุ่งมั่น)", "Strength (ความกล้าหาญและความรักสงบ)",
+            "The Hermit (การพินิจคิดทบทวนในตนเอง)", "Wheel of Fortune (ความเปลี่ยนแปลงของโชคชะตา)", "Justice (ความถูกต้องและความยุติธรรม)",
+            "The Hanged Man (การเสียสละมุมมองใหม่)", "Death (การจบลงเพื่อตื่นรู้ใหม่)", "Temperance (ความสมดุลและการปรับตัว)",
+            "The Devil (ความผูกมัดหรือกิเลส)", "The Tower (เหตุการณ์พลิกผันเฉียบพลัน)", "The Star (ความหวังและความเยียวยา)",
+            "The Moon (ความลังเลและความลึกลับ)", "The Sun (ความสุขสว่างและความชัดเจน)", "Judgement (ผลของการทำความเข้าใจอดีต)",
+            "The World (ความสำเร็จสูงสุดอันสมบูรณ์)"
+        ];
+
+        // รายชื่อไพ่ป๊อกสุ่มทายชะตา
+        const POKER_CARDS = [
+            "Ace of Hearts (การเริ่มต้นของความรักใหม่)", "King of Hearts (ผู้ให้คำปรึกษาที่อบอุ่น)", "Queen of Hearts (ความห่วงใยอันแสนอบอุ่น)",
+            "Ace of Spades (การตัดสินใจเฉียบขาดเพื่อเริ่มต้นใหม่)", "King of Spades (ผู้มีปัญญาเฉียบขาดมั่นคง)", "Queen of Spades (ความเด็ดเดี่ยวไม่ยอมแพ้)",
+            "Ace of Diamonds (โอกาสด้านการเงินหรืองานใหม่)", "King of Diamonds (ความเจริญมั่นคงและมั่งคั่ง)", "Queen of Diamonds (ความเอาใจใส่ในความจริง)",
+            "Ace of Clubs (จุดเริ่มต้นไอเดียและโครงการใหม่)", "King of Clubs (ความสำเร็จทางการจัดการ)", "Queen of Clubs (ความกระตือรือร้นและคล่องแคล่ว)"
+        ];
+
+        // คาแรคเตอร์ที่ปรึกษา AI ทั้ง 4 คน
+        const THERAPISTS = {
+            anya: {
+                name: "ดร. อัญญา (Dr. Anya)",
+                bio: "ผู้เชี่ยวชาญด้านปัญหาหัวใจ ความสัมพันธ์ และการเยียวยาแผลใจจากการอกหักอย่างอ่อนโยน",
+                prompt: "You are Dr. Anya, an empathetic relationships psychologist who listens deeply and heals heartbreaks. Give tender, loving guidance."
+            },
+            zen: {
+                name: "มาสเตอร์ เซน (Master Zen)",
+                bio: "ปราชญ์ผู้นำพาความสงบทางใจ การปล่อยวาง และความเข้าใจในสัจธรรมของธรรมชาติชีวิต",
+                prompt: "You are Master Zen, a calm and wise philosopher. Help the user release stress and practice letting go with gentle Eastern wisdom."
+            },
+            vee: {
+                name: "โค้ช วี (Coach Vee)",
+                bio: "ที่ปรึกษาสายปลุกไฟ เติมกำลังใจ ฟื้นฟูอาการ Burnout จากการทำงานและเรียน",
+                prompt: "You are Coach Vee, an energetic life coach who helps restore motivation, fire, and focus on overcoming challenges."
+            },
+            luna: {
+                name: "ลูน่า (Luna)",
+                bio: "เพื่อนรักคนสนิทที่จะไม่ตัดสินคุณ คอยรับฟังคุณในคืนที่ท้องฟ้านอนไม่หลับ",
+                prompt: "You are Luna, a soft-spoken best friend and supportive listener. Validate feelings and hold space warmly without judgment."
+            }
+        };
+
+        // ตัวแปรควบคุมระบบ
+        let currentTheme = 'dark';
+        let currentLang = 'th';
+        let selectedTherapistId = 'luna';
+        let divinationDeck = 'tarot';
+        let currentDrawnCount = 0;
+        let drawnCardIndices = [];
+        let chatHistories = { anya: [], zen: [], vee: [], luna: [] };
+
+        // จัดระบบเปลี่ยนสีโหมด
+        function applyTheme(themeName) {
+            currentTheme = themeName;
+            const root = document.documentElement;
+            const variables = THEMES[themeName];
+            for (let [key, val] of Object.entries(variables)) {
+                root.style.setProperty(key, val);
+            }
+            document.getElementById('theme-icon').className = themeName === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        }
+
+        function toggleTheme() {
+            applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        }
+
+        // จัดระบบเปลี่ยนภาษาหน้าจอ
+        function toggleLanguage() {
+            currentLang = currentLang === 'th' ? 'en' : 'th';
+            document.getElementById('lang-indicator').innerText = currentLang.toUpperCase();
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.getAttribute('data-translate');
+                el.innerText = TRANSLATIONS[currentLang][key];
+            });
+            getRandomQuote();
+            resetChatGreetings();
+        }
+
+        // ฟังก์ชันสลับเมนูแท็บ
+        function switchTab(tabId) {
+            document.querySelectorAll('.btn-tab').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${tabId}`).classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+                tab.classList.remove('active');
+            });
+            const activeTab = document.getElementById(`tab-${tabId}`);
+            activeTab.classList.remove('hidden');
+            activeTab.classList.add('active');
+        }
+
+        // สุ่มคำคม
+        function getRandomQuote() {
+            const quote = QUOTES_POOL[Math.floor(Math.random() * QUOTES_POOL.length)];
+            document.getElementById('display-quote-th').innerText = `"${quote.th}"`;
+            document.getElementById('display-quote-en').innerText = quote.en;
+        }
+
+        // การเรียก API โดยยิงผ่าน Vercel Serverless Function ที่อยู่ต้นทางเดียวกัน (/api/gemini)
+        async function callServerlessAPI(prompt, systemInstruction) {
+            try {
+                const response = await fetch('/api/gemini', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }],
+                        systemInstruction: { parts: [{ text: `${systemInstruction}\n\nIMPORTANT: Respond primarily in ${currentLang === 'th' ? 'Thai' : 'English'}.` }] }
+                    })
+                });
+                if (!response.ok) throw new Error();
+                const data = await response.json();
+                return data.candidates?.[0]?.content?.parts?.[0]?.text || TRANSLATIONS[currentLang].errAPI;
+            } catch (error) {
+                console.error("API call error:", error);
+                return TRANSLATIONS[currentLang].errAPI;
+            }
+        }
+
+        // การทำงานแชทบำบัด
+        function selectTherapist(id) {
+            selectedTherapistId = id;
+            document.querySelectorAll('#therapist-selector button').forEach(b => b.classList.remove('border-[var(--color-accent)]'));
+            document.getElementById(`selector-${id}`).classList.add('border-[var(--color-accent)]');
+
+            const config = THERAPISTS[id];
+            document.getElementById('active-therapist-name').innerText = config.name;
+
+            renderChatHistory();
+        }
+
+        function renderChatHistory() {
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.innerHTML = '';
+            const history = chatHistories[selectedTherapistId];
+
+            if (history.length === 0) {
+                const greetText = currentLang === 'th' ?
+                    `สวัสดีค่ะ ฉันคือ ${THERAPISTS[selectedTherapistId].name} ยินดีรับฟังนะคะ... วันนี้มีเรื่องอะไรไม่สบายใจไหมเล่ามาได้เลย` :
+                    `Hello, I am ${THERAPISTS[selectedTherapistId].name}. I am here to hold a safe space for you. What is on your mind?`;
+                history.push({ role: 'ai', text: greetText });
+            }
+
+            history.forEach(msg => {
+                const isUser = msg.role === 'user';
+                const msgEl = document.createElement('div');
+                msgEl.className = `flex ${isUser ? 'justify-end' : 'justify-start'} animate-fade-in`;
+                msgEl.innerHTML = `
+                    <div class="max-w-[75%] p-4 rounded-3xl ${isUser ? 'rounded-tr-none' : 'rounded-tl-none'} text-sm leading-relaxed" 
+                         style="background: ${isUser ? 'var(--color-accent)' : 'rgba(0,0,0,0.15)'}; 
+                                color: ${isUser ? 'var(--color-on-accent)' : 'var(--color-text)'}; 
+                                border: 1px solid var(--glass-border);">
+                        ${msg.text}
+                    </div>
+                `;
+                chatMessages.appendChild(msgEl);
+            });
+            chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
+        }
+
+        async function sendChatMessage() {
+            const inputEl = document.getElementById('chat-input');
+            const text = inputEl.value.trim();
+            if (!text) return;
+
+            inputEl.value = '';
+            const history = chatHistories[selectedTherapistId];
+            history.push({ role: 'user', text });
+            renderChatHistory();
+
+            const chatMessages = document.getElementById('chat-messages');
+            const typingEl = document.createElement('div');
+            typingEl.id = 'typing-indicator';
+            typingEl.className = `flex justify-start animate-fade-in`;
+            typingEl.innerHTML = `
+                <div class="p-4 rounded-3xl rounded-tl-none text-sm" style="background: rgba(0,0,0,0.15); color: var(--color-accent);">
+                    <i class="fa-solid fa-ellipsis animate-bounce"></i>
+                </div>
+            `;
+            chatMessages.appendChild(typingEl);
+            chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
+
+            const promptContext = history.map(h => `${h.role === 'user' ? 'User' : 'Assistant'}: ${h.text}`).join('\n');
+            const systemPrompt = THERAPISTS[selectedTherapistId].prompt;
+            const response = await callServerlessAPI(promptContext, systemPrompt);
+
+            document.getElementById('typing-indicator')?.remove();
+            history.push({ role: 'ai', text: response });
+            renderChatHistory();
+        }
+
+        function resetChatGreetings() {
+            Object.keys(chatHistories).forEach(key => {
+                chatHistories[key] = [];
+            });
+            renderChatHistory();
+        }
+
+        // ระบบพยากรณ์เปิดไพ่
+        function startDivination(deck) {
+            const q = document.getElementById('divine-question').value.trim();
+            if (!q) return;
+
+            divinationDeck = deck;
+            document.getElementById('divine-question-display').innerText = `"${q}"`;
+            document.getElementById('divine-step-1').classList.add('hidden');
+            document.getElementById('divine-step-2').classList.remove('hidden');
+
+            currentDrawnCount = 0;
+            drawnCardIndices = [];
+            document.getElementById('divine-reading-container').classList.add('hidden');
+            document.getElementById('divine-retry-btn').classList.add('hidden');
+            document.getElementById('divine-status').innerText = currentLang === 'th' ? "โปรดคลิกเพื่อจั่วไพ่ทีละใบให้ครบ 3 ใบ..." : "Please click to flip all 3 cards...";
+
+            for (let i = 0; i < 3; i++) {
+                const cEl = document.getElementById(`card-${i}`);
+                cEl.classList.remove('flipped');
+                cEl.style.pointerEvents = 'auto';
+            }
+        }
+
+        // ทำการคลิกเลือกจั่วไพ่ทีละใบอย่างสวยงาม
+        function drawSingleCard(cardIdx) {
+            const cEl = document.getElementById(`card-${cardIdx}`);
+            if (cEl.classList.contains('flipped')) return;
+
+            const pool = divinationDeck === 'tarot' ? TAROT_CARDS : POKER_CARDS;
+            let randomIdx;
+            do {
+                randomIdx = Math.floor(Math.random() * pool.length);
+            } while (drawnCardIndices.includes(randomIdx));
+
+            drawnCardIndices.push(randomIdx);
+            const cardName = pool[randomIdx];
+
+            document.getElementById(`card-name-${cardIdx}`).innerText = cardName;
+            cEl.classList.add('flipped');
+            cEl.style.pointerEvents = 'none';
+
+            currentDrawnCount++;
+
+            if (currentDrawnCount === 3) {
+                document.getElementById('divine-status').innerText = currentLang === 'th' ? "ดึงพลังการวิเคราะห์จากดวงดาว..." : "Channeling the stars' guidance...";
+                analyzeCards();
+            }
+        }
+
+        // ให้ AI แปลดวงตามคำถามและหน้าไพ่จริง
+        async function analyzeCards() {
+            const q = document.getElementById('divine-question').value.trim();
+            const pool = divinationDeck === 'tarot' ? TAROT_CARDS : POKER_CARDS;
+            const cardTexts = drawnCardIndices.map(i => pool[i]);
+
+            document.getElementById('divine-reading-container').classList.remove('hidden');
+            document.getElementById('divine-reading-text').innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> ${currentLang === 'th' ? 'แม่หมอกำลังคำนวณวงแหวนดวงดาว...' : 'Astronomers are aligning the telescopes...'}`;
+
+            const systemPrompt = `You are a professional astrologer, fortune teller and comforting therapist. 
+            The user has drawn 3 cards (${divinationDeck} style) for a specific question.
+            Provide an inspiring, poetic, yet realistic interpretation (past, present, future layout).
+            Never make the user feel doomed; offer ways to turn challenges into personal strength.`;
+
+            const prompt = `Question: "${q}"\nCards: ${cardTexts.join(', ')}`;
+            const response = await callServerlessAPI(prompt, systemPrompt);
+
+            document.getElementById('divine-reading-text').innerText = response;
+            document.getElementById('divine-retry-btn').classList.remove('hidden');
+            document.getElementById('divine-status').innerText = currentLang === 'th' ? "ทำนายสมบูรณ์เรียบร้อย" : "Reading completed.";
+        }
+
+        function resetDivination() {
+            document.getElementById('divine-question').value = '';
+            document.getElementById('divine-step-1').classList.remove('hidden');
+            document.getElementById('divine-step-2').classList.add('hidden');
+        }
+
+        // ระบบบำบัดรักตนเอง (Self Love)
+        async function submitSelfLove() {
+            const msg = document.getElementById('selflove-message').value.trim();
+            if (!msg) return;
+
+            document.getElementById('selflove-step-1').classList.add('hidden');
+            document.getElementById('selflove-step-2').classList.remove('hidden');
+            document.getElementById('selflove-response').innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> ${currentLang === 'th' ? 'กำลังซึมซับความรู้สึกและถักทอผ้ากอด...' : 'Embracing your thoughts and knitting a cozy hug...'}`;
+
+            const systemPrompt = `You are an incredibly loving, warm psychological mentor. 
+            The user is sharing a heartfelt or difficult feeling. Validate them deeply. Tell them their heart is incredibly beautiful.
+            ALWAYS conclude your response by guiding them to reflect that same love and kindness back onto themselves.`;
+
+            const response = await callServerlessAPI(`User feeling: "${msg}"`, systemPrompt);
+            document.getElementById('selflove-response').innerText = response;
+        }
+
+        function resetSelfLove() {
+            document.getElementById('selflove-message').value = '';
+            document.getElementById('selflove-step-1').classList.remove('hidden');
+            document.getElementById('selflove-step-2').classList.add('hidden');
+        }
+
+        // โหลดเนื้อหาหลักเมื่อเปิดเว็บครั้งแรก
+        window.onload = function () {
+            applyTheme('dark');
+            getRandomQuote();
+            selectTherapist('luna');
+        }
+    </script>
+</body>
+
+</html>
